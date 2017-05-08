@@ -213,6 +213,8 @@ static cqhttp_post_response post_event(json_t *json, const string &event_name) {
     char *json_str = json_dumps(json, 0);
     CURL *curl = curl_easy_init();
     cqhttp_post_response response;
+
+	long status_code1=0;
     if (curl) {
         curl_easy_setopt(curl, CURLOPT_URL, httpd_config.post_url.c_str());
 
@@ -233,8 +235,9 @@ static cqhttp_post_response post_event(json_t *json, const string &event_name) {
         if (res == CURLE_OK) {
             long status_code;
             curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &status_code);
+			status_code1 = status_code;
             if (status_code >= 200 && status_code < 300) {
-                response.succeeded = true;
+                response.succeeded = true;				
                 response.json = json_loads(resp_stream.str().c_str(), 0, NULL);
             }
         }
@@ -243,7 +246,9 @@ static cqhttp_post_response post_event(json_t *json, const string &event_name) {
         curl_slist_free_all(chunk);
     }
     free(json_str);
-    LOG_D("HTTP上报", string(event_name) + " 事件上报" + (response.succeeded ? "成功" : "失败"));
+	char fff[10];
+	string scode = itoa(status_code1,fff,10);
+    LOG_D("HTTP上报", string(event_name) + " 事件上报" + (response.succeeded ? "成功" : "失败")+scode);
 
     if (response.json != NULL) {
         char *tmp = json_dumps(response.json, 0);
