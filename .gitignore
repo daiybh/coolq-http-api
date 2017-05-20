@@ -8,3 +8,5 @@ post_build.bat
 *.opensdf
 *.suo
 ipch
+CoolQHttpApi.VC.VC.opendb
+CoolQHttpApi.VC.db
