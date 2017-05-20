@@ -1,5 +1,7 @@
 
-import sqlite3,os
+import sqlite3
+import os
+
 
 def connect_db():
     """Connects to the specific database."""
@@ -19,4 +21,3 @@ def init_db():
     print("init_db finish")
     cur = db.execute('select qq, msg,isCar from QQMSG order by id desc')
     print(cur)
-
