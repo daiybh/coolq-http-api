@@ -108,6 +108,8 @@ def getCars(group_id=''):
     sql = 'select qq, msg,Datetime(time,\'localtime\')  from QQMSG where isCar=1'
     if group_id != '':
         sql = sql + ' and QQGROUP=' + str(group_id)
+        
+    sql=sql+' and time>date(\'now\') '
     sql = sql + ' order by id desc'
     #print(sql)
     cur = db.execute(sql)
